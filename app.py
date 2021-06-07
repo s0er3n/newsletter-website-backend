@@ -7,9 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Routers
-from routers import *
 
-
+from routers.system import router as system
 # Startup Handler
 def did_startup():
     print("Server Started")
@@ -46,21 +45,12 @@ Router = namedtuple('Router', ['router', 'name', 'prefix', 'dependencies'])
 ROUTERS = [
     # System Router
     Router(
-        router=system_router,   # APIRouter Object ./routers/__init__.py
+        router=system,   # APIRouter Object ./routers/__init__.py
         name="System",          # Name for Documentation
         prefix="/auth",         # API Prefix
         dependencies=[]         # Dependencies
-    ),
-    Router(
-        router=stonks_router,   # APIRouter Object ./routers/__init__.py
-        name="Stonks",          # Name for Documentation
-        prefix="/stonks",         # API Prefix
-        dependencies=[]         # Dependencies
-    ),
-
-
-    # Example Router
-    # Router(router=example_router, name="Example", prefix="/example", dependencies=[]),
+    )
+    
 ]
 
 for router in ROUTERS:
@@ -70,5 +60,5 @@ for router in ROUTERS:
         tags=[router.name],
         dependencies=router.dependencies
     )
-if __name__ == "main":
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+
+uvicorn.run(app, host="0.0.0.0", port=8000)

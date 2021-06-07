@@ -1,7 +1,0 @@
-__title__ = 'terminal_api'
-__description__ = 'API'
-__version__ = '1.0.0'
-__author__ = 'BluhbergTerminal'
-__author_email__ = ''
-__license__ = ''
-__url__ = 'https://github.com/BluhbergTerminal/terminal-api'
