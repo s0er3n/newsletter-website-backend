@@ -1,4 +1,4 @@
-
+import uvicorn
 from collections import namedtuple
 
 # Packages
@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Routers
-from .routers import *
+from routers import *
 
 
 # Startup Handler
@@ -70,4 +70,5 @@ for router in ROUTERS:
         tags=[router.name],
         dependencies=router.dependencies
     )
-
+if __name__ == "main":
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
