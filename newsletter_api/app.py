@@ -1,15 +1,16 @@
-import uvicorn
+from os import environ
+from newsletter_api.models.newsletter import Newsletter
 from collections import namedtuple
 
 # Packages
 from fastapi import FastAPI, Cookie, Depends, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from .routers import system, newsletter
 
-# Routers
-
-from routers.system import router as system
 # Startup Handler
+
+
 def did_startup():
     print("Server Started")
 
@@ -30,6 +31,7 @@ app = FastAPI(
     on_startup=[did_startup],
     on_shutdown=[did_shutdown]
 )
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -45,12 +47,18 @@ Router = namedtuple('Router', ['router', 'name', 'prefix', 'dependencies'])
 ROUTERS = [
     # System Router
     Router(
-        router=system,   # APIRouter Object ./routers/__init__.py
+        router=system.router,   # APIRouter Object ./routers/__init__.py
         name="System",          # Name for Documentation
         prefix="/auth",         # API Prefix
         dependencies=[]         # Dependencies
+    ),
+    Router(
+        router=newsletter.router,   # APIRouter Object ./routers/__init__.py
+        name="Newsletter",          # Name for Documentation
+        prefix="/newsletter",         # API Prefix
+        dependencies=[]         # Dependencies
     )
-    
+
 ]
 
 for router in ROUTERS:
@@ -61,4 +69,6 @@ for router in ROUTERS:
         dependencies=router.dependencies
     )
 
-uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

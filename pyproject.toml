@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "newsletter-website-backend"
+name = "newsletter_api"
 version = "0.1.0"
 description = ""
 authors = ["Sören Michaels <soeren.michaels@gmail.com>"]
@@ -7,14 +7,16 @@ authors = ["Sören Michaels <soeren.michaels@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.65.1"
-pydantic = "^1.8.2"
+pydantic = {extras = ["email"], version = "^1.8.2"}
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.8.3"
 uvicorn = "^0.14.0"
 jedi = "^0.18.0"
+autopep8 = "^1.5.7"
 
 [tool.poetry.scripts]
+newsletter = 'newsletter_api.cli:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
