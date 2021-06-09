@@ -1,5 +1,6 @@
-
+from dataclasses import asdict
 from bson.py3compat import reraise
+from api.models import Newsletter
 import pymongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
@@ -7,31 +8,42 @@ import os
 load_dotenv()
 
 
+def factory(data):
+    return dict(x for x in data if x[1] is not None)
+
+
 def connect_to_server():
-    '''returns datenbank im cluster'''
+    '''
+    FIXME: nicht doppelt verbinden
+    returns datenbank im cluster'''
     conn_str = f'mongodb+srv://mngdbuser:{os.environ.get("mongopw")}@newsletter.jpl4r.mongodb.net/newsletter?retryWrites=true&w=majority'
     # set a 5-second connection timeout
     client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
     try:
         # print(client.server_info())
-        db = client.newsletter 
+        db = client.newsletter
         posts = db.posts
         return posts
     except Exception:
         print("Unable to connect to the server.")
-        
 
-def creat_letter(dict):
+
+def create_newsletter(newsletter: Newsletter):
     '''dict (inc user_id) mit änderung am letter, returns post_id'''
+    print(dir(newsletter))
+    newsletter = asdict(Newsletter, dict_factory=factory)
+
+    print(newsletter)
     try:
-        posts = connect_to_server()
-        post_id = posts.insert_one(dict).inserted_id
+        newsletter = connect_to_server()
+        post_id = newsletter.insert_one(dict(Newsletter)).inserted_id
         return post_id
 
-    except Exception:
-        return "newsletter konnte nicht in der db erstellt werden"
+    except Exception as e:
+        return "newsletter konnte nicht in der db erstellt werden" + str(e)
 
-def read_letters(user_id, post_id = None):
+
+def get_newsletters(user_id, post_id=None):
     '''wenn nur user_id, werden alle newsletter sonst der 
     spezifische newsletter in einer List returned
     '''
@@ -48,7 +60,8 @@ def read_letters(user_id, post_id = None):
     except Exception:
         return "newsletter konnte nicht in der db gefunden werden"
 
-def delete_letter(post_id, user_id):
+
+def delete_newsletter(post_id, user_id):
     try:
         posts = connect_to_server()
         x = posts.delete_many({"_id": ObjectId(post_id), "user_id": user_id})
@@ -57,3 +70,6 @@ def delete_letter(post_id, user_id):
     except Exception:
         return "newsletter konnte nicht in der db gelöscht werden"
 
+
+def changed_newsletter():
+    pass

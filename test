@@ -1,0 +1,96 @@
+
+
+
+newsletter: {
+    ownerid:
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+db: ownerid: { newsletter_id{
+        block:
+            subreddits
+            personen
+    }
+    newsletter_id{
+
+    }
+}
+
+newsletter: {
+    ownerid:
+    etc
+}
+
+owners: [ ownerid: {
+    newsletter [
+    newsletter_id{
+        block:
+            subreddits
+            personen
+    }
+    newsletter_id{
+
+    }
+]
+}]
+
+{
+    objid
+    data {
+        alksdjalsd
+        alksdjalsdsda
+        sda
+        sdasd
+    }
+}
+
+{
+    ownerid(uuid) : {
+        newsletter
+            1231312: {
+            block
+        }}
+        123132897123:
+        311892738123: 
+        ]
+        
+    },
+    ownerid : {},
+    ownerid : {},
+}
+
+{'_id': ObjectId('60c09a34f002b311946a0855'),
+ 'blocks': {'msw': '4', 'vitards': '1', 'wsb': '8'},
+ 'user_id': 'll33213esd'}
+
+
+owners {
+    id {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
