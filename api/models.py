@@ -1,5 +1,6 @@
 import typing
 import strawberry
+from dataclasses import asdict
 
 @strawberry.type
 class Options:

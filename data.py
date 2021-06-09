@@ -1,10 +1,41 @@
+import typing
+import strawberry
+from dataclasses import asdict
+@strawberry.type
+class Options:
+    time: str
+    frequenzy: str
 
-from dataclasses import asdict, dataclass
+
+@strawberry.type
+class Block:
+    subreddit: str
+    flairs: typing.List[str]
+    count: int
+    upvote_ratio: float
 
 
-@dataclass
-class Test:
-    test: str
+@strawberry.type
+class Newsletter:
+    user_id: str
+    options: Options
+    blocks: typing.List[Block]
 
 
-print(asdict(Test("123")))
+
+
+
+
+print(asdict(
+    Newsletter(
+        "test",
+        Options(
+            "123","123",
+        ),
+        [
+        Block("123",["123"],123,0.1)
+        ]
+        )
+
+    )
+)

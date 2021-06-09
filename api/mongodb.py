@@ -30,13 +30,12 @@ def connect_to_server():
 
 def create_newsletter(newsletter: Newsletter):
     '''dict (inc user_id) mit änderung am letter, returns post_id'''
-    print(dir(newsletter))
-    newsletter = asdict(Newsletter, dict_factory=factory)
+    news = asdict(newsletter)
 
     print(newsletter)
     try:
         newsletter = connect_to_server()
-        post_id = newsletter.insert_one(dict(Newsletter)).inserted_id
+        post_id = newsletter.insert_one(news).inserted_id
         return post_id
 
     except Exception as e:
