@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import asdict
-from api.models import Newsletter, Block, Options
+from api.models import Newsletter, Block, Options, NewsletterInput
 from api.mongodb import get_newsletters, create_newsletter, delete_newsletter
 import uuid
 
@@ -27,13 +27,8 @@ class Mutation:
     #         return True
 
     @strawberry.mutation
-    def make_newsletter(self, userid: str, time: str, frequenzy: str, subreddit: str, flairs: typing.List[str], count: int, upvote_ratio: float) -> str:
-        newsletter = Newsletter(
-            user_id=userid,
-            options=Options(time=time, frequenzy=frequenzy),
-            blocks = [Block(subreddit=subreddit,flairs = flairs, count =  count,upvote_ratio = upvote_ratio)]
-        )
-        print(asdict(newsletter))
+    def make_newsletter(self, newsletter: NewsletterInput) -> str:
+        print(newsletter)
 
         return create_newsletter(newsletter)
 
