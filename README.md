@@ -3,7 +3,7 @@
 
 ## Commands:
 ```shell
-newletter [host=localhost] [port=80] [--reload] [--dev]
+newsletter [host=localhost] [port=80] [--reload] [--dev]
 
 ARGS:
 
