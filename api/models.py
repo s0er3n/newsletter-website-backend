@@ -1,11 +1,11 @@
 import typing
 import strawberry
-from dataclasses import asdict
+import datetime
 
 @strawberry.type
 class Options:
-    time: str
-    frequenzy: str
+    time: datetime.time
+    frequenzy: int
 
 
 @strawberry.type
@@ -18,6 +18,27 @@ class Block:
 
 @strawberry.type
 class Newsletter:
-    user_id: str
+    user_id: strawberry.ID
     options: Options
     blocks: typing.List[Block]
+
+
+@strawberry.input
+class OptionsInput:
+    time: datetime.time
+    frequenzy: int
+
+
+@strawberry.input
+class BlockInput:
+    subreddit: str
+    flairs: typing.List[str]
+    count: int
+    upvote_ratio: float
+
+
+@strawberry.input
+class NewsletterInput:
+    user_id: strawberry.ID
+    options: OptionsInput
+    blocks: typing.List[BlockInput]

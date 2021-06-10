@@ -6,8 +6,6 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
 load_dotenv()
-
-
 def factory(data):
     return dict(x for x in data if x[1] is not None)
 
