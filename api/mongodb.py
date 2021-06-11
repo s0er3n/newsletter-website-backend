@@ -15,7 +15,7 @@ def connect_to_server():
     '''
     FIXME: nicht doppelt verbinden
     returns datenbank im cluster'''
-    conn_str = f'mongodb+srv://mngdbuser:{os.environ.get("mongopw")}@newsletter.jpl4r.mongodb.net/newsletter?retryWrites=true&w=majority'
+    conn_str = f'mongodb+srv://newsletter_account:{os.environ.get("mongopw")}@newsletter.jpl4r.mongodb.net/newsletter?retryWrites=true&w=majority'
     # set a 5-second connection timeout
     client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
     try:
@@ -70,5 +70,40 @@ def delete_newsletter(post_id, user_id):
         return "newsletter konnte nicht in der db gelöscht werden"
 
 
-def changed_newsletter():
-    pass
+def change_newsletter(post_id, user_id, changing_layer1, change , changing_layer2 = None, block_number = None):
+    '''changing_layer2 requiered if dict in blocks must be changed, otherwise error
+    '''
+
+    posts = connect_to_server()
+    
+    try:
+        # print(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1])
+        print(isinstance(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1], (list, dict)))
+
+        if isinstance(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1], (list, dict)) and changing_layer2 == None:
+            return "add search parameter for dict (add changing_layer2)"
+
+        else:    
+        
+            if isinstance(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1], (list, dict)) and changing_layer2 != None:
+
+                newchange = change_dict_in_newsletter(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1], changing_layer2, change, block_number)
+                print(newchange)
+            
+            
+
+
+            elif isinstance(posts.find_one({"_id": ObjectId(post_id), "user_id": user_id})[changing_layer1], (list, dict)) == False:
+                newchange = change
+                
+            posts.update_one({"_id": ObjectId(post_id), "user_id": user_id}, {'$set': {changing_layer1: newchange}}, upsert = True)    
+
+    except Exception:
+        return "newsletter in der db konnte nicht bearbeitet werden"
+
+
+def change_dict_in_newsletter(list, changing_layer2,change, block_number: int = None):
+    list[block_number-1][changing_layer2] = change
+    return list
+
+
