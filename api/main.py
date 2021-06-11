@@ -1,20 +1,19 @@
 from __future__ import annotations
 from dataclasses import asdict
-from api.models import Newsletter, Block, Options, NewsletterInput
+from api.models import NewsletterInput, User, Newsletter
 from api.mongodb import get_newsletters, create_newsletter, delete_newsletter
 import uuid
-
 import typing
 import strawberry
 
 
-def get_hello() -> str:
-    return "hello"
 
 
 @strawberry.type
 class Query:
-    newsletter: str = strawberry.field(resolver=get_hello)
+    @strawberry.field
+    def fetch_newsletters(self,user_id: str, newsletter_id:str= None) -> typing.List[Newsletter] or str:
+        return get_newsletters(user_id, newsletter_id)
 
 
 @strawberry.type

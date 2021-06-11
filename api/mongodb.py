@@ -5,6 +5,7 @@ import pymongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
+import strawberry
 load_dotenv()
 def factory(data):
     return dict(x for x in data if x[1] is not None)
@@ -40,7 +41,7 @@ def create_newsletter(newsletter: Newsletter):
         return "newsletter konnte nicht in der db erstellt werden" + str(e)
 
 
-def get_newsletters(user_id, post_id=None):
+def get_newsletters(user_id: strawberry.ID, post_id: str=None) :
     '''wenn nur user_id, werden alle newsletter sonst der 
     spezifische newsletter in einer List returned
     '''
@@ -51,6 +52,7 @@ def get_newsletters(user_id, post_id=None):
         else:
             newsletterlist = []
             for post in posts.find({"user_id": user_id}):
+                print(post)
                 newsletterlist.append(post)
             return newsletterlist
 

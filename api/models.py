@@ -1,10 +1,11 @@
 import typing
 import strawberry
-import datetime
+
+
 
 @strawberry.type
 class Options:
-    time: datetime.time
+    time: str 
     frequenzy: int
 
 
@@ -18,14 +19,14 @@ class Block:
 
 @strawberry.type
 class Newsletter:
-    user_id: strawberry.ID
+    user_id: str
     options: Options
     blocks: typing.List[Block]
 
 
 @strawberry.input
 class OptionsInput:
-    time: datetime.time
+    time: str
     frequenzy: int
 
 
@@ -39,6 +40,11 @@ class BlockInput:
 
 @strawberry.input
 class NewsletterInput:
-    user_id: strawberry.ID
+    user_id: str
     options: OptionsInput
     blocks: typing.List[BlockInput]
+
+@strawberry.type
+class User:
+    newsletter: typing.List[Newsletter]
+

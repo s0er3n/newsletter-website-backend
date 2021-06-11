@@ -1,6 +1,7 @@
 import typing
 import strawberry
 from dataclasses import asdict
+
 @strawberry.type
 class Options:
     time: str
@@ -26,16 +27,3 @@ class Newsletter:
 
 
 
-print(asdict(
-    Newsletter(
-        "test",
-        Options(
-            "123","123",
-        ),
-        [
-        Block("123",["123"],123,0.1)
-        ]
-        )
-
-    )
-)
