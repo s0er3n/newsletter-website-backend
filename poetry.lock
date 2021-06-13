@@ -228,6 +228,17 @@ python-versions = "*"
 six = ">=1.4.0"
 
 [[package]]
+name = "rethinkdb"
+version = "2.4.8"
+description = "Python driver library for the RethinkDB database server."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -317,7 +328,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c012a2c525a121ae010f63b4b15e8ad9eafaf37b3683ca270d819b03aada073e"
+content-hash = "48e835f7a5a73c343ce4751977dbd8f392c03b7faeec0da551c6721cbb4a2383"
 
 [metadata.files]
 astroid = [
@@ -484,6 +495,10 @@ python-dotenv = [
 ]
 python-multipart = [
     {file = "python-multipart-0.0.5.tar.gz", hash = "sha256:f7bb5f611fc600d15fa47b3974c8aa16e93724513b49b5f95c81e6624c83fa43"},
+]
+rethinkdb = [
+    {file = "rethinkdb-2.4.8-py2.py3-none-any.whl", hash = "sha256:f491e016be554d0ceb4b7bbea22930b1e33aa48d20217207bf72bb355f06834e"},
+    {file = "rethinkdb-2.4.8.tar.gz", hash = "sha256:9f75a72bcd899ab0f6b0677873b89fba99c512bc7895eb5fbc1dc9a228b8aaee"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},

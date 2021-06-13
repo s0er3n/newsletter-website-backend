@@ -19,6 +19,7 @@ class Block:
 
 @strawberry.type
 class Newsletter:
+    id: str
     user_id: str
     options: Options
     blocks: typing.List[Block]
@@ -47,4 +48,3 @@ class NewsletterInput:
 @strawberry.type
 class User:
     newsletter: typing.List[Newsletter]
-

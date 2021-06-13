@@ -1,3 +1,3 @@
 ```
-poetry run strawberry sever api.main
+poetry run strawberry server api.main
 ```
