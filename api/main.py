@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import lru_cache
 from dataclasses import asdict
 from api.models import NewsletterInput, Newsletter, NewsletterChangeInput
 from api.mongodb import get_newsletters, create_newsletter, delete_newsletter, change_newsletter
@@ -24,6 +25,8 @@ class Query:
     @strawberry.field
     def fetch_newsletters(self,user_id: str, newsletter_id:str= None) -> typing.List[Newsletter]:
         return get_newsletters(user_id, newsletter_id)
+
+    @lru_cache(maxsize=128)
     @strawberry.field
     def get_subreddit_icon_link(self, subreddit: str) -> str:
         return reddit.subreddit(subreddit).icon_img
