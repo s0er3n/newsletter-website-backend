@@ -38,6 +38,13 @@ class BlockInput:
     count: int
     upvote_ratio: float
 
+@strawberry.input
+class NewsletterChangeInput:
+    id:str
+    user_id: str
+    options: OptionsInput
+    blocks: typing.List[BlockInput]
+
 
 @strawberry.input
 class NewsletterInput:

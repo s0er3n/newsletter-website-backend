@@ -7,7 +7,7 @@ load_dotenv()
 
 from rethinkdb import RethinkDB
 r = RethinkDB()
-r.connect( "localhost", 28015).repl()
+r.connect( "rethink", 28015).repl()
 newsletters = r.db("test").table("newsletters")
 
 
