@@ -5,6 +5,16 @@ from api.mongodb import get_newsletters, create_newsletter, delete_newsletter, c
 import uuid
 import typing
 import strawberry
+import praw
+from dotenv import load_dotenv
+load_dotenv()
+reddit = praw.Reddit(
+    client_id=os.environ.get("client_id"),
+    client_secret=os.environ.get("client_secret"),
+    password=os.environ.get("password"),
+    user_agent=os.environ.get("user_agent"),
+    username=os.environ.get("username")
+)
 
 
 
@@ -14,12 +24,16 @@ class Query:
     @strawberry.field
     def fetch_newsletters(self,user_id: str, newsletter_id:str= None) -> typing.List[Newsletter]:
         return get_newsletters(user_id, newsletter_id)
+    @strawberry.field
+    def get_subreddit_icon_link(self, subreddit: str) -> str:
+        return reddit.subreddit(subreddit).icon_img
+
+
 
 @strawberry.type
 class Mutation:
 
 
-    @strawberry.mutation
     def make_newsletter(self, newsletter: NewsletterInput) -> str:
         return create_newsletter(newsletter)
 

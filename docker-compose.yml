@@ -1,0 +1,11 @@
+services:
+  rethink:
+    image: rethinkdb
+    ports:
+      - "8080:8080"
+      - "29015:29015"
+      - "28015:28015"
+  graphql:
+    image: s0er3n/website-backend
+    ports:
+        - "8000:8000"
