@@ -1,15 +1,16 @@
 from __future__ import annotations
 from functools import lru_cache
+import os
 from dataclasses import asdict
 from api.models import NewsletterInput, Newsletter, NewsletterChangeInput
 from api.mongodb import get_newsletters, create_newsletter, delete_newsletter, change_newsletter
 import uuid
 import typing
 import strawberry
-import praw
+import asyncpraw
 from dotenv import load_dotenv
 load_dotenv()
-reddit = praw.Reddit(
+reddit = asyncpraw.Reddit(
     client_id=os.environ.get("client_id"),
     client_secret=os.environ.get("client_secret"),
     password=os.environ.get("password"),
@@ -17,8 +18,15 @@ reddit = praw.Reddit(
     username=os.environ.get("username")
 )
 
-
-
+cache = {}
+async def get_subreddit_icon_link(self, subredditname: str) -> str:
+    if subredditname not in cache:
+        subreddit = await reddit.subreddit(subredditname)
+        await subreddit.load()
+        icon = subreddit.icon_img if subreddit.icon_img else subreddit.community_icon
+        cache[subredditname] = icon
+        return icon
+    return cache[subredditname]
 
 @strawberry.type
 class Query:
@@ -26,11 +34,7 @@ class Query:
     def fetch_newsletters(self,user_id: str, newsletter_id:str= None) -> typing.List[Newsletter]:
         return get_newsletters(user_id, newsletter_id)
 
-    @lru_cache(maxsize=128)
-    @strawberry.field
-    def get_subreddit_icon_link(self, subreddit: str) -> str:
-        return reddit.subreddit(subreddit).icon_img
-
+    get_subreddit_icon_link: str = strawberry.field(resolver=get_subreddit_icon_link)
 
 
 @strawberry.type

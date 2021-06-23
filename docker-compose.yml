@@ -6,6 +6,11 @@ services:
       - "29015:29015"
       - "28015:28015"
   graphql:
-    image: s0er3n/website-backend
+    environment:
+        - PYTHONUNBUFFERED=1
+    build: .
     ports:
         - "8000:8000"
+    volumes:
+      - .env:/app/.env
+
