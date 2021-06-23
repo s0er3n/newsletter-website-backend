@@ -41,6 +41,7 @@ class Query:
 class Mutation:
 
 
+    @strawberry.mutation
     def make_newsletter(self, newsletter: NewsletterInput) -> str:
         return create_newsletter(newsletter)
 
