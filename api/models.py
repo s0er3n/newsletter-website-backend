@@ -2,6 +2,10 @@ import typing
 import strawberry
 
 
+@strawberry.type
+class Subreddit:
+    subreddit_name: str
+    icon_url: str
 
 @strawberry.type
 class Options:

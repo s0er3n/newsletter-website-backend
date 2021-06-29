@@ -2,7 +2,7 @@ from __future__ import annotations
 from functools import lru_cache
 import os
 from dataclasses import asdict
-from api.models import NewsletterInput, Newsletter, NewsletterChangeInput
+from api.models import NewsletterInput, Newsletter, NewsletterChangeInput, Subreddit
 from api.mongodb import get_newsletters, create_newsletter, delete_newsletter, change_newsletter
 import uuid
 import typing
@@ -19,14 +19,18 @@ reddit = asyncpraw.Reddit(
 )
 
 cache = {}
-async def get_subreddit_icon_link(self, subredditname: str) -> str:
-    if subredditname not in cache:
-        subreddit = await reddit.subreddit(subredditname)
-        await subreddit.load()
-        icon = subreddit.icon_img if subreddit.icon_img else subreddit.community_icon
-        cache[subredditname] = icon
-        return icon
-    return cache[subredditname]
+async def get_subreddit_icon_link(self, subredditnamelist: typing.List[str]) -> typing.List[Subreddit]:
+    iconsDict = []
+    for subredditname in subredditnamelist:
+        if subredditname not in cache:
+            subreddit = await reddit.subreddit(subredditname)
+            await subreddit.load()
+            icon = subreddit.icon_img if subreddit.icon_img else subreddit.community_icon
+            cache[subredditname] = icon
+            iconsDict.append(  Subreddit(subredditname,  icon))
+            continue
+        iconsDict.append(Subreddit(subredditname,cache[subredditname]))
+    return iconsDict
 
 @strawberry.type
 class Query:
@@ -34,7 +38,7 @@ class Query:
     def fetch_newsletters(self,user_id: str, newsletter_id:str= None) -> typing.List[Newsletter]:
         return get_newsletters(user_id, newsletter_id)
 
-    get_subreddit_icon_link: str = strawberry.field(resolver=get_subreddit_icon_link)
+    get_subreddit_icon_link: typing.List[Subreddit] = strawberry.field(resolver=get_subreddit_icon_link)
 
 
 @strawberry.type
