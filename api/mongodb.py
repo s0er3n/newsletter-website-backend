@@ -1,5 +1,5 @@
 from dataclasses import asdict
-from api.models import Newsletter, Options, Block
+from api.models import Newsletter, Options, Block, Days
 from dotenv import load_dotenv
 import os
 import strawberry
@@ -24,7 +24,8 @@ def get_newsletters(user_id: strawberry.ID, post_id: str = None):
 
     newsletterlist = []
     for newsletter in cursor:
-        newsletterlist.append(Newsletter(newsletter["id"],user_id=newsletter["user_id"], options = Options(**newsletter["options"]), blocks= [Block(**block) for block in newsletter["blocks"]]))
+        print(newsletter["options"])
+        newsletterlist.append(Newsletter(newsletter["id"],user_id=newsletter["user_id"], options = Options(time=newsletter["options"]["time"], frequenzy=Days(**newsletter["options"]["frequenzy"])), blocks= [Block(**block) for block in newsletter["blocks"]]))
     return newsletterlist
 
 def delete_newsletter(newsletter_id):
