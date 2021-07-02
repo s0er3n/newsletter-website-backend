@@ -3,6 +3,26 @@ import strawberry
 
 
 @strawberry.type
+class Days:
+    monday: bool
+    tuesday: bool
+    wednesday: bool
+    thursday: bool
+    friday: bool
+    saturday: bool
+    sunday: bool
+
+@strawberry.input
+class DaysInput:
+    monday: bool
+    tuesday: bool
+    wednesday: bool
+    thursday: bool
+    friday: bool
+    saturday: bool
+    sunday: bool
+
+@strawberry.type
 class Subreddit:
     subreddit_name: str
     icon_url: str
@@ -10,7 +30,7 @@ class Subreddit:
 @strawberry.type
 class Options:
     time: str 
-    frequenzy: int
+    frequenzy: Days
 
 
 @strawberry.type
@@ -32,8 +52,7 @@ class Newsletter:
 @strawberry.input
 class OptionsInput:
     time: str
-    frequenzy: int
-
+    frequenzy: DaysInput
 
 @strawberry.input
 class BlockInput:
