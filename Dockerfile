@@ -32,4 +32,5 @@ FROM base AS runtime
 COPY --from=builder /runtime /usr/local
 COPY . /app
 WORKDIR /app
+EXPOSE 8000
 CMD [ "strawberry" ,"server", "api.main"]
